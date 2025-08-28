@@ -208,6 +208,7 @@ class ModelManagement(Generic[T]):
             "tokenizer_config.json",
             "special_tokens_map.json",
             "preprocessor_config.json",
+            "*.onnx_data",
         ]
 
         allow_patterns.extend(extra_patterns)
