@@ -1,6 +1,8 @@
 from typing import Any, Iterable, Optional, Sequence, Type, Union
 
 from fastembed.common.types import NumpyArray, OnnxProvider
+import numpy as np
+
 from fastembed.common.onnx_model import OnnxOutputContext
 from fastembed.common.utils import define_cache_dir, normalize
 from fastembed.text.onnx_text_model import OnnxTextModel, TextEmbeddingWorker
@@ -304,6 +306,15 @@ class OnnxTextEmbedding(TextEmbeddingBase, OnnxTextModel[NumpyArray]):
         """
         Preprocess the onnx input.
         """
+        if self.model_name == "qwen3-embedding-0.6b-onnx" and "position_ids" not in onnx_input:
+            # Derive positions from attention_mask to handle left/right padding correctly
+            mask = onnx_input["attention_mask"].astype(np.int64, copy=False)
+            pos = np.cumsum(mask, axis=1) - 1  # [-1 for pads, 0..L-1 for tokens]
+            np.maximum(pos, 0, out=pos)  # clamp negatives
+            pos *= mask  # ensure pads are 0, not repeated last index
+            pos = np.ascontiguousarray(pos, dtype=np.int64)
+
+            onnx_input["position_ids"] = pos
         return onnx_input
 
     def _post_process_onnx_output(

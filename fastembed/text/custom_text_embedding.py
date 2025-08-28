@@ -74,12 +74,20 @@ class CustomTextEmbedding(OnnxTextEmbedding):
                 raise ValueError("attention_mask must be provided for mean pooling")
             return mean_pooling(embeddings, attention_mask)
 
+        if self._pooling == PoolingType.LAST_TOKEN:
+            if attention_mask is None:
+                raise ValueError("attention_mask must be provided for last token pooling")
+            # index of last non-pad token (works for left or right padding)
+            seq_lengths = (attention_mask.sum(axis=1) - 1).astype(np.int64)  # ensure int indices
+            batch_indices = np.arange(embeddings.shape[0], dtype=np.int64)
+            return embeddings[batch_indices, seq_lengths]
+
         if self._pooling == PoolingType.DISABLED:
             return embeddings
 
         raise ValueError(
             f"Unsupported pooling type {self._pooling}. "
-            f"Supported types are: {PoolingType.CLS}, {PoolingType.MEAN}, {PoolingType.DISABLED}."
+            f"Supported types are: {PoolingType.CLS}, {PoolingType.MEAN}, {PoolingType.LAST_TOKEN}, {PoolingType.DISABLED}."
         )
 
     def _normalize(self, embeddings: NumpyArray) -> NumpyArray:
