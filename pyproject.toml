@@ -1,14 +1,14 @@
 [tool.poetry]
-name = "fastembed"
-version = "0.7.3"
-description = "Fast, light, accurate library built for retrieval embedding generation"
-authors = ["Qdrant Team <info@qdrant.tech>", "NirantK <nirant.bits@gmail.com>"]
+name = "fastembed-qwen3"
+version = "0.7.3.post3"
+description = "FastEmbed fork with Qwen3 embedding model support for Rose server"
+authors = ["GardenVarietyAI <gardenvariety@fastmail.com>", "Qdrant Team <info@qdrant.tech>", "NirantK <nirant.bits@gmail.com>"]
 license = "Apache License"
 readme = "README.md"
 packages = [{include = "fastembed"}]
-homepage = "https://github.com/qdrant/fastembed"
-repository = "https://github.com/qdrant/fastembed"
-keywords = ["vector", "embedding", "neural", "search", "qdrant", "sentence-transformers"]
+homepage = "https://github.com/GardenVarietyAI/fastembed"
+repository = "https://github.com/GardenVarietyAI/fastembed"
+keywords = ["vector", "embedding", "neural", "search", "qwen3", "rose"]
 
 [tool.poetry.dependencies]
 python = ">=3.9.0"

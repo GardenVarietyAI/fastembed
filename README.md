@@ -1,12 +1,16 @@
-# ⚡️ What is FastEmbed?
+# ⚡️ FastEmbed-Qwen3
 
-FastEmbed is a lightweight, fast, Python library built for embedding generation. We [support popular text models](https://qdrant.github.io/fastembed/examples/Supported_Models/). Please [open a GitHub issue](https://github.com/qdrant/fastembed/issues/new) if you want us to add a new model.
+**This is a fork of [FastEmbed](https://github.com/qdrant/fastembed) with Qwen3 embedding model support for [ROSE server](https://github.com/GardenVarietyAI/rose).**
+
+For general use, please use the upstream [fastembed](https://pypi.org/project/fastembed/) package.
+
+FastEmbed is a lightweight, fast, Python library built for embedding generation. This fork adds support for Qwen3 embedding models.
 
 The default text embedding (`TextEmbedding`) model is Flag Embedding, presented in the [MTEB](https://huggingface.co/spaces/mteb/leaderboard) leaderboard. It supports "query" and "passage" prefixes for the input text. Here is an example for [Retrieval Embedding Generation](https://qdrant.github.io/fastembed/qdrant/Retrieval_with_FastEmbed/) and how to use [FastEmbed with Qdrant](https://qdrant.github.io/fastembed/qdrant/Usage_With_Qdrant/).
 
 ## 📈 Why FastEmbed?
 
-1. Light: FastEmbed is a lightweight library with few external dependencies. We don't require a GPU and don't download GBs of PyTorch dependencies, and instead use the ONNX Runtime. This makes it a great candidate for serverless runtimes like AWS Lambda. 
+1. Light: FastEmbed is a lightweight library with few external dependencies. We don't require a GPU and don't download GBs of PyTorch dependencies, and instead use the ONNX Runtime. This makes it a great candidate for serverless runtimes like AWS Lambda.
 
 2. Fast: FastEmbed is designed for speed. We use the ONNX Runtime, which is faster than PyTorch. We also use data parallelism for encoding large datasets.
 
@@ -131,7 +135,7 @@ embeddings = list(model.embed(documents))
 #   array([
 #       [-0.9019,  0.0335, -0.0032,  0.0991, ...],
 #       [-0.2115,  0.8097,  0.1052,  0.0195, ...],
-#   ]),  
+#   ]),
 # ]
 ```
 
@@ -193,7 +197,7 @@ scores = list(encoder.rerank(query, documents))
 Text cross encoders can also be extended with models which are not in the list of supported models.
 
 ```python
-from fastembed.rerank.cross_encoder import TextCrossEncoder 
+from fastembed.rerank.cross_encoder import TextCrossEncoder
 from fastembed.common.model_description import ModelSource
 
 TextCrossEncoder.add_custom_model(
@@ -222,7 +226,7 @@ Check our [example](https://qdrant.github.io/fastembed/examples/FastEmbed_GPU/) 
 from fastembed import TextEmbedding
 
 embedding_model = TextEmbedding(
-    model_name="BAAI/bge-small-en-v1.5", 
+    model_name="BAAI/bge-small-en-v1.5",
     providers=["CUDAExecutionProvider"]
 )
 print("The model BAAI/bge-small-en-v1.5 is ready to use on a GPU.")
@@ -237,7 +241,7 @@ Installation with Qdrant Client in Python:
 pip install qdrant-client[fastembed]
 ```
 
-or 
+or
 
 ```bash
 pip install qdrant-client[fastembed-gpu]
